@@ -6,21 +6,21 @@ $global_usertype = "";
 session_start();
 if(isset($_SESSION["email"]))
 {
-  /*$email = $_SESSION["email"];
-  $query = "SELECT u_id,fname,user_type FROM users where email='$email'";
+  $email = $_SESSION["email"];
+  $query = "SELECT user_id,fname,type FROM users where email='$email'";
   $result = mysqli_query($con,$query);
   $numResults = mysqli_num_rows($result);
   if($numResults)
   {
     $userdata = mysqli_fetch_array($result);
     $user_handle = $userdata['fname'];
-    $global_uid = $userdata['u_id'];
-    $global_usertype = $userdata['user_type'];
+    $global_uid = $userdata['user_id'];
+    $global_usertype = $userdata['type'];
   }
   else
   {
     $user_handle = "Me";
-  }*/
+  }
 }
 else
 {
@@ -50,6 +50,7 @@ function global_js($active = "")
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="<?php echo $g_url;?>js/materialize.js"></script>
   <script src="<?php echo $g_url;?>js/init.js"></script>
+  <script src="<?php echo $g_url;?>js/common.js"></script>
 <?php
 }
 
@@ -90,11 +91,10 @@ function global_modals()
   <div id="signup-modal" class="modal">
     <div class="modal-content">
       <h4 class="center">Sign Up</h4>
-      <hr class="darken-2"><br>
+      <hr class="darken-2">
       <div class="row">
         <div class="row" id="common-signup">
           <form class="col m12" id="signup-form">
-            <br>
             <div class="row">
               <div class="input-field col s12 m6">
                 <i class="material-icons prefix">account_circle</i>
@@ -112,13 +112,12 @@ function global_modals()
                 <label for="semail" class="semail_label" data-error="invalid" data-success="">Email</label>
               </div>
               <div class="input-field col s12 m6">
-                <select>
-                  <option value="" disabled selected>Choose your option</option>
-                  <option value="1">Student</option>
+                <select id="susertype" class="validate" required="" aria-required="true">
+                  <option value="1" selected>Student</option>
                   <option value="2">Parent</option>
                   <option value="3">Faculty</option>
                 </select>
-                <label>Account Type</label>
+                <label for="susertype" class="susertype_label" data-error="invalid" data-success="">Account Type</label>
               </div>
               <div class="input-field col s12 m6">
                 <i class="material-icons prefix">vpn_key</i>
@@ -133,7 +132,7 @@ function global_modals()
               <p class="signup-form-message"></p>
             </div>
             <p class="left">Already have an account? <a href="#login-modal" class="modal-trigger">Login</a></p>
-            <button class="red waves-effect waves-light btn right signup-btn" type="submit" onclick="validateEmail(1)">Sign Up</button>
+            <button class="red waves-effect waves-light btn right signup-btn" type="submit" onclick="validateEmail()">Sign Up</button>
           </form>
         </div>
       </div>
@@ -161,6 +160,7 @@ function top_banner($active = "")
 {
   global $global_uid;
   global $g_url;
+  global $user_handle;
 ?>
 <div class="navbar-fixed">
   <nav class="white navbar-fixed" role="navigation">
@@ -168,11 +168,32 @@ function top_banner($active = "")
       <a id="logo-container" href="#" class="brand-logo">DBMS 3</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="#">Navbar Link</a></li>
-        <li class="waves-effect waves-dark"><a href="#signup-modal" class="modal-trigger">Sign Up</a></li>
-        <li class="waves-effect waves-dark"><a href="#login-modal" class="modal-trigger">Login</a></li>
+        <?php
+        if(!$global_uid)
+        {
+        ?>
+          <li class="waves-effect waves-dark"><a href="#signup-modal" class="modal-trigger">Sign Up</a></li>
+          <li class="waves-effect waves-dark"><a href="#login-modal" class="modal-trigger">Login</a></li>
+        <?php
+        }
+        else
+        {
+        ?>
+          <li class="waves-effect waves-dark"><a href="<?php echo $g_url; ?>profile/"><?php echo $user_handle; ?></a></li>
+          <li class=""><a class='dropdown-button grey-text' href='#' data-activates='dropdown-user' data-hover="false" data-constrainwidth="false"><i class="material-icons">arrow_drop_down</i></a></li>
+          <!-- Dropdown Structure -->
+          <ul id='dropdown-user' class='dropdown-content'>
+            <li class="divider"></li>
+            <li><a href="<?php echo $g_url;?>accounts/logout.php" class="grey-text">Logout</a></li>
+          </ul>
+        <?php
+        }
+        ?>
       </ul>
       <ul id="nav-mobile" class="side-nav">
         <li><a href="#">Navbar Link</a></li>
+        <li class="waves-effect waves-dark"><a href="#signup-modal" class="modal-trigger">Sign Up</a></li>
+        <li class="waves-effect waves-dark"><a href="#login-modal" class="modal-trigger">Login</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
