@@ -79,10 +79,10 @@ function global_modals()
               <input id="lpassword" type="password" class="validate">
               <label for="lpassword">Password</label>
             </div>
-            <p class="login-form-message invalid red-text center"></p>
+            <p class="login-form-message invalid indigo-text center"></p>
           </div>
           <p class="left">Don't have an account? <a href="#signup-modal" class="modal-trigger">Sign Up</a></p>
-          <button class="red waves-effect waves-light btn right" type="submit" onclick="verifyLogin()">Login</button>
+          <button class="indigo waves-effect waves-light btn right" type="submit" onclick="verifyLogin()">Login</button>
         </form>
       </div>
     </div>
@@ -132,7 +132,7 @@ function global_modals()
               <p class="signup-form-message"></p>
             </div>
             <p class="left">Already have an account? <a href="#login-modal" class="modal-trigger">Login</a></p>
-            <button class="red waves-effect waves-light btn right signup-btn" type="submit" onclick="validateEmail()">Sign Up</button>
+            <button class="indigo waves-effect waves-light btn right signup-btn" type="submit" onclick="validateEmail()">Sign Up</button>
           </form>
         </div>
       </div>
@@ -144,7 +144,7 @@ function global_modals()
       <div class="row">
         <center>
           <h5>You are not logged in. Please login to continue</h5><br>
-           <a href="#login-modal" class="modal-trigger btn btn-large red">Login</a>
+           <a href="#login-modal" class="modal-trigger btn btn-large indigo">Login</a>
           <p>Don't have an account? <a href="#signup-modal" class="modal-trigger">Sign Up</a></p>
         </center>
       </div>
@@ -165,9 +165,9 @@ function top_banner($active = "")
 <div class="navbar-fixed">
   <nav class="white navbar-fixed" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo">DBMS 3</a>
+      <a id="logo-container" href="<?php echo $g_url;?>" class="brand-logo">DBMS 3</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
+        <li><a href="<?php echo $g_url;?>" class="<?php echo $active=='home' ? 'indigo-text':'' ?>">Home</a></li>
         <?php
         if(!$global_uid)
         {
@@ -179,7 +179,7 @@ function top_banner($active = "")
         else
         {
         ?>
-          <li class="waves-effect waves-dark"><a href="<?php echo $g_url; ?>profile/"><?php echo $user_handle; ?></a></li>
+          <li class="waves-effect waves-dark"><a href="<?php echo $g_url; ?>profile/" class="<?php if($active == 'profile'){echo 'indigo-text';} ?>"><?php echo $user_handle; ?></a></li>
           <li class=""><a class='dropdown-button grey-text' href='#' data-activates='dropdown-user' data-hover="false" data-constrainwidth="false"><i class="material-icons">arrow_drop_down</i></a></li>
           <!-- Dropdown Structure -->
           <ul id='dropdown-user' class='dropdown-content'>

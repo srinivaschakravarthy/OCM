@@ -55,3 +55,33 @@ p {
 footer.page-footer {
   margin: 0;
 }
+
+#upload_dp_link {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.uploadins {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+
+
+  visibility: hidden;
+  opacity: 0;
+
+  /*remove comment if you want a gradual transition between states
+  -webkit-transition: visibility opacity 0.2s;
+  */
+}
+
+
+#upload_dp_link:hover .uploadins {
+  visibility: visible;
+  opacity: 1;
+}
