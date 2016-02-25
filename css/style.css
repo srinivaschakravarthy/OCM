@@ -85,3 +85,9 @@ footer.page-footer {
   visibility: visible;
   opacity: 1;
 }
+
+nav ul li .active{
+    border-color: #3f51b5;
+    border-width: 0px 0 2px 0px;
+    border-style: solid;
+}

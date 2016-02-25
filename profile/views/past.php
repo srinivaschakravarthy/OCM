@@ -1,6 +1,6 @@
 <?php include("common.php");?>
 <?php
-profileheader('overview');
+profileheader('past');
  ?>
 <div class="container">
   <div class="section">

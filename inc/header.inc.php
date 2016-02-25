@@ -162,12 +162,12 @@ function top_banner($active = "")
   global $g_url;
   global $user_handle;
 ?>
-<div class="navbar-fixed">
+<div class="navbar-fixed z-depth-1">
   <nav class="white navbar-fixed" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="<?php echo $g_url;?>" class="brand-logo">DBMS 3</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="<?php echo $g_url;?>" class="<?php echo $active=='home' ? 'indigo-text':'' ?>">Home</a></li>
+        <li><a href="<?php echo $g_url;?>" class="<?php echo $active=='home' ? 'indigo-text active':'' ?>">Home</a></li>
         <?php
         if(!$global_uid)
         {
@@ -179,7 +179,7 @@ function top_banner($active = "")
         else
         {
         ?>
-          <li class="waves-effect waves-dark"><a href="<?php echo $g_url; ?>profile/" class="<?php if($active == 'profile'){echo 'indigo-text';} ?>"><?php echo $user_handle; ?></a></li>
+          <li class="waves-effect waves-dark"><a href="<?php echo $g_url; ?>profile/" class="<?php if($active == 'profile'){echo 'indigo-text active';} ?>"><?php echo $user_handle; ?></a></li>
           <li class=""><a class='dropdown-button grey-text' href='#' data-activates='dropdown-user' data-hover="false" data-constrainwidth="false"><i class="material-icons">arrow_drop_down</i></a></li>
           <!-- Dropdown Structure -->
           <ul id='dropdown-user' class='dropdown-content'>

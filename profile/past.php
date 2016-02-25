@@ -55,7 +55,7 @@ if(!isset($_REQUEST['u']) || $_REQUEST['u'] == "")//parameter for user id is not
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <title><?php echo $fname." ".$lname;?> - dbms3</title>
+    <title>Past courses of <?php echo $fname." ".$lname;?> - dbms3</title>
     <?php global_stylesheets();?>
   </head>
   <body class="">
@@ -76,7 +76,7 @@ if(!isset($_REQUEST['u']) || $_REQUEST['u'] == "")//parameter for user id is not
     }
     else
     {
-       include("views/profileoverview.php");
+       include("views/past.php");
     }
     include("../inc/footer.php");
     ?>
