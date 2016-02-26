@@ -38,6 +38,9 @@ function global_stylesheets()
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="<?php echo $g_url;?>css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="<?php echo $g_url;?>css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="<?php echo $g_url;?>css/owl.carousel.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="<?php echo $g_url;?>css/owl.theme.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="<?php echo $g_url;?>css/owl.transitions.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel="shortcut icon" type="image/png" href="<?php echo $g_url;?>images/favicon.png"/>
   <?php
 }
@@ -52,6 +55,8 @@ function global_js($active = "")
   <script src="<?php echo $g_url;?>js/materialize.js"></script>
   <script src="<?php echo $g_url;?>js/init.js"></script>
   <script src="<?php echo $g_url;?>js/common.js"></script>
+  <script src="<?php echo $g_url;?>js/owl.carousel.js"></script>
+  <script src="<?php echo $g_url;?>js/owl.carousel.min.js"></script>
 <?php
 }
 
@@ -272,7 +277,7 @@ function coursecard($courseid)
   }*/
   //we have all the data of the course table here
 ?>
-  <div class="col s12 m6">
+  <div class="col s12 m12">
     <div class="card medium">
       <div class="card-image">
         <img src="<?php echo $g_url; ?>images/background8.jpg">
@@ -280,7 +285,7 @@ function coursecard($courseid)
         <span class="price-tag indigo-text z-depth-1"><i class="fa fa-inr"></i>&nbsp;<?php echo $coursedata['fees']; ?></span>
 
       </div>
-      <div class="card-content">
+      <div class="card-content black-text">
         <p><?php echo $coursedata['course_description']?></p>
       </div>
       <div class="card-action">

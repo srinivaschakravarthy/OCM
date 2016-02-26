@@ -125,3 +125,31 @@ hr{
   outline: 0;
   padding: 0 1rem;
 }
+
+#courses-carousel .card{
+  padding: 10px 5px;
+  margin: 5px;
+  color: #FFF;
+}
+
+#lecturers-carousel .card{
+  padding: 10px 5px;
+  margin: 5px;
+  color: #FFF;
+}
+
+input[type="search"]::-webkit-input-placeholder {
+color: indigo !important;
+}
+
+input[type="search"]:-moz-placeholder { /* Firefox 18- */
+color: indigo !important;
+}
+
+input[type="search"]::-moz-placeholder {  /* Firefox 19+ */
+color: indigo !important;
+}
+
+input[type="search"]:-ms-input-placeholder {
+color: indigo !important;
+}

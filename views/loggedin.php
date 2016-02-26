@@ -5,19 +5,28 @@
         <h6>Ongoing Courses</h6><hr>
         <!--     -->
         <div class="row">
-          <?php
-          coursecard(1);
-          coursecard(1);
-          coursecard(1);
-          ?>
+          <div class="col m6">
+          <?php  coursecard(1); ?>
+          </div>
+          <div class="col m6">
+          <?php  coursecard(1); ?>
+          </div>
+          <div class="col m6">
+          <?php  coursecard(1); ?>
+          </div>
         </div>
         <h6>Upcoming Courses</h6><hr>
         <!--     -->
         <div class="row">
-          <?php
-          coursecard(1);
-          coursecard(1);
-          ?>
+          <div class="col m6">
+          <?php  coursecard(1); ?>
+          </div>
+          <div class="col m6">
+          <?php  coursecard(1); ?>
+          </div>
+          <div class="col m6">
+          <?php  coursecard(1); ?>
+          </div>
         </div>
       </div>
       <div class="col m3">
