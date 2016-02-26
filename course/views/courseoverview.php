@@ -14,6 +14,20 @@ courseheader('overview');
         <p><?php echo $course_syllabus; ?></p>
         <h5>Prerequisites</h5><hr>
         <p><?php echo $course_prereqs; ?></p>
+        <?php
+          if($enrolled)
+          {
+        ?>
+          <a class="btn indigo white-text right">Get Started</a>
+        <?php
+          }
+          else
+          {
+        ?>
+          <a class="btn indigo white-text right">Enroll</a>
+        <?php
+          }
+        ?>
       </div>
     </div>
 

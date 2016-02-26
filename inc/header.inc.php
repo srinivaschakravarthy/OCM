@@ -33,6 +33,7 @@ function global_stylesheets()
   global $global_uid;
   ?>
   <!--global  CSS  -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="<?php echo $g_url;?>css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -163,9 +164,9 @@ function top_banner($active = "")
   global $user_handle;
 ?>
 <div class="navbar-fixed z-depth-1">
-  <nav class="white navbar-fixed" role="navigation">
+  <nav class="white navbar-fixed dbms3-navbar" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="<?php echo $g_url;?>" class="brand-logo">DBMS 3</a>
+      <a id="logo-container" href="<?php echo $g_url;?>" class="brand-logo indigo-text"><b>DBMS 3</b></a>
       <ul class="right hide-on-med-and-down">
         <li><a href="<?php echo $g_url;?>" class="<?php echo $active=='home' ? 'indigo-text active':'' ?>">Home</a></li>
         <?php
@@ -244,4 +245,51 @@ function generateRandomString($length = 10,$lettersonly = 0) {
     }
     return $randomString;
 }
+
+function coursecard($courseid)
+{
+  global $s3bucketurl;
+  global $g_url;
+  global $con;
+  //Query to get the details of the course
+  $query = "SELECT * FROM courses WHERE course_id = $courseid";
+  $result = mysqli_query($con, $query);
+  $numResults = mysqli_num_rows($result);
+  if($numResults)
+  {
+    $coursedata = mysqli_fetch_assoc($result);
+  }
+  //Query to get the course instructor data
+  /*$query = "SELECT * FROM courses WHERE course_id = $courseid";
+  $result = mysqli_query($con, $query);
+  $numResults = mysqli_num_rows($result);
+  if($numResults)
+  {
+    while($instructordata = mysqli_fetch_assoc($result))
+    {
+
+    }
+  }*/
+  //we have all the data of the course table here
+?>
+  <div class="col s12 m6">
+    <div class="card medium">
+      <div class="card-image">
+        <img src="<?php echo $g_url; ?>images/background8.jpg">
+        <span class="card-title"><h5><a href="<?php echo $g_url; ?>course/?c=<?php echo $courseid; ?>" class="white-text"><?php echo $coursedata['course_name']; ?></a></h5><small>by me</small></span>
+        <span class="price-tag indigo-text z-depth-1"><i class="fa fa-inr"></i>&nbsp;<?php echo $coursedata['fees']; ?></span>
+
+      </div>
+      <div class="card-content">
+        <p><?php echo $coursedata['course_description']?></p>
+      </div>
+      <div class="card-action">
+        <a href="<?php echo $g_url; ?>course/?c=<?php echo $courseid; ?>" class="btn btn-small indigo white-text waves-effect waves-light">View</a>
+        <span class="right indigo-text"><i class="fa fa-user"></i>&nbsp;50</span>
+      </div>
+    </div>
+  </div>
+<?php
+}
+
 ?>

@@ -91,3 +91,37 @@ nav ul li .active{
     border-width: 0px 0 2px 0px;
     border-style: solid;
 }
+
+.lecsidebar .collection a.collection-item {
+      color: #aaa;
+}
+
+hr{
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+.dbms3-navbar{
+  border-color: #3f51b5;
+    border-width: 2px 0 0px 0px;
+    border-style: solid;
+}
+
+.price-tag{
+  position: absolute;;
+  top: 5px;
+  right: -5px;
+  background: white;
+  padding: 3px 15px 3px 15px;
+}
+
+.btn-small{
+  height: 24px;
+  line-height: 24px;
+  outline: 0;
+  padding: 0 1rem;
+}

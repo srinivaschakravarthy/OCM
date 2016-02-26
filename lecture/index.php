@@ -32,15 +32,10 @@ else//lecture id parameter is set
     {
        include("../misc/views/needlogin.php");
     }
-    else if($coursenotfound)
+    else if($lecturenotfound)
     {
        include("views/notfound.php");
     }
-    else if(!$global_uid)
-    {
-       include("views/lecture.php");
-    }
-    include("../inc/footer.php");
     ?>
     <?php global_modals();?>
     <?php global_js('lecture');?>
