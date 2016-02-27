@@ -39,9 +39,9 @@ else//course id parameter is set
     $query = "SELECT *
               FROM lectures
                 LEFT OUTER JOIN text_lectures
-                  ON (text_lectures.lecture_id = lectures.lecture_id AND lectures.type = 'text')
+                  ON (text_lectures.lec_id = lectures.lec_id AND lectures.type = 'text')
                 LEFT OUTER JOIN video_lectures
-                  ON (video_lectures.lecture_id = lectures.lecture_id AND lectures.type = 'video')
+                  ON (video_lectures.lec_id = lectures.lec_id AND lectures.type = 'video')
               WHERE lectures.index = $lecindex AND lectures.course_id = $courseid";
     echo $query;
   }
