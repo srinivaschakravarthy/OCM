@@ -265,24 +265,49 @@ function coursecard($courseid)
     $coursedata = mysqli_fetch_assoc($result);
   }
   //Query to get the course instructor data
-  /*$query = "SELECT * FROM courses WHERE course_id = $courseid";
+  $query = "SELECT users.user_id, users.fname, users.lname
+            FROM users
+            WHERE user_id IN (
+              SELECT user_id
+              FROM faculty
+              WHERE faculty_id IN(
+                SELECT faculty_id
+                FROM taught_by
+                WHERE course_id = $courseid
+              )
+            )";
   $result = mysqli_query($con, $query);
   $numResults = mysqli_num_rows($result);
   if($numResults)
   {
-    while($instructordata = mysqli_fetch_assoc($result))
+    $instructordata = array();
+    while($row = mysqli_fetch_assoc($result))
     {
-
+      array_push($instructordata,$row);
     }
-  }*/
+    //print_r($instructordata);
+  }
   //we have all the data of the course table here
 ?>
-  <div class="col s12 m12">
     <div class="card medium">
       <div class="card-image">
         <img src="<?php echo $g_url; ?>images/background8.jpg">
-        <span class="card-title"><h5><a href="<?php echo $g_url; ?>course/?c=<?php echo $courseid; ?>" class="white-text"><?php echo $coursedata['course_name']; ?></a></h5><small>by me</small></span>
-        <span class="price-tag indigo-text z-depth-1"><i class="fa fa-inr"></i>&nbsp;<?php echo $coursedata['fees']; ?></span>
+        <span class="card-title">
+          <h5><a href="<?php echo $g_url; ?>course/?c=<?php echo $courseid; ?>" class="white-text"><?php echo $coursedata['course_name']; ?></a></h5>
+          <small>by
+            <?php
+            if(isset($instructordata))
+            {
+              foreach ($instructordata as $row) {
+            ?>
+                <a class="white-text" href="<?php echo $g_url; ?>profile/?u=<?php echo $row['user_id'] ?>"><?php echo $row['fname']." ".$row['lname'].","; ?></a>
+            <?php
+              }
+            }
+            ?>
+          </small>
+        </span>
+        <span class="price-tag indigo-text z-depth-1"><?php echo $coursedata['fees']==0 ? "FREE": "<i class='fa fa-inr'></i>&nbsp;".$coursedata['fees']; ?></span>
 
       </div>
       <div class="card-content black-text">
@@ -293,7 +318,7 @@ function coursecard($courseid)
         <span class="right indigo-text"><i class="fa fa-user"></i>&nbsp;50</span>
       </div>
     </div>
-  </div>
+
 <?php
 }
 

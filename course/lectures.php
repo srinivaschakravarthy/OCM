@@ -4,12 +4,13 @@ $course_name = "";
 $coursepicurl = $s3bucketurl."default.jpg";//course pic url is set to default image
 $needlogin = 1;//variable is set to 1 if login is absolutely necessary
 $coursenotfound = 0;
+$lecturenotfound = 0;
 $editable = 0;
 if(!isset($_REQUEST['c']) || $_REQUEST['c'] == "")//parameter for user id is not set
 {
   $coursenotfound = 1;
 }
-else//uid parameter is set
+else//course id parameter is set
 {
   $courseid = $_REQUEST['c'];
   $query = "SELECT * FROM courses where course_id='$courseid'";
@@ -26,6 +27,23 @@ else//uid parameter is set
   else//For invalid course ids
   {
     $coursenotfound = 1;
+  }
+  //Now that we have found course details get lecture data
+  if(!isset($_REQUEST['l']) || $_REQUEST['l'] == "")
+  {
+    $lecturenotfound = 1;
+  }
+  else//Index of the lecture is set
+  {
+    $lecindex = $_REQUEST['l'];
+    $query = "SELECT *
+              FROM lectures
+                LEFT OUTER JOIN text_lectures
+                  ON (text_lectures.lecture_id = lectures.lecture_id AND lectures.type = 'text')
+                LEFT OUTER JOIN video_lectures
+                  ON (video_lectures.lecture_id = lectures.lecture_id AND lectures.type = 'video')
+              WHERE lectures.index = $lecindex AND lectures.course_id = $courseid";
+    echo $query;
   }
 }
 if($global_uid)
