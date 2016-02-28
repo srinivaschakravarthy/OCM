@@ -45,13 +45,13 @@ function courseheader($active = "overview"){
           if($enrolled && $active == "overview")
           {
         ?>
-          <a class="btn white indigo-text right">Get going</a>
+          <a class="btn white indigo-text right waves-effect waves-dark" href="<?php echo $g_url; ?>course/lectures.php?c=<?php echo $courseid; ?>">Get Started</a>
         <?php
           }
           else if(!$enrolled)
           {
         ?>
-          <a class="btn white indigo-text right modal-trigger" href="<?php echo $global_uid ? '#course-enroll-modal':'#anonuser-modal' ?>">Enroll</a>
+          <a class="btn white indigo-text right modal-trigger waves-effect waves-dark" href="<?php echo $global_uid ? '#course-enroll-modal':'#anonuser-modal' ?>">Enroll</a>
         <?php
           }
         ?>
@@ -78,7 +78,7 @@ function courseheader($active = "overview"){
 <?php
 }//End of courseheader function
 
-function enrollmodal()
+function enrollmodal($courseid = 0, $fee = 0)
 {
 ?>
   <div id="course-enroll-modal" class="modal">
@@ -91,10 +91,13 @@ function enrollmodal()
               Course Fee
             </div>
             <div class="col m3">
-              <font size="5"><i class="fa fa-inr"></i>&nbsp;199</font>
+              <font size="5"><i class="fa fa-inr"></i>&nbsp;<?php echo $fee; ?></font>
             </div>
           </div>
-          <a href="#login-modal" class="modal-trigger btn btn-large indigo">Pay Now</a>
+          <form action="backend/enroll.php" method="POST">
+            <input name="courseid" type="text" value="<?php echo $courseid; ?>" hidden>
+            <button type="submit" class="btn btn-large indigo waves-effect waves-dark">Pay Now</button>
+          </form>
         </center>
       </div>
     </div>

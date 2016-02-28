@@ -167,8 +167,9 @@ function top_banner($active = "")
   global $global_uid;
   global $g_url;
   global $user_handle;
+  global $global_usertype;
 ?>
-<div class="navbar-fixed z-depth-1">
+<div class="navbar-fixed z-depth-2">
   <nav class="white navbar-fixed dbms3-navbar" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="<?php echo $g_url;?>" class="brand-logo indigo-text"><b>DBMS 3</b></a>
@@ -206,6 +207,16 @@ function top_banner($active = "")
   </nav>
 </div>
 <?php
+  if($global_uid && $global_usertype == "3")
+  {
+?>
+    <!-- Floating button -->
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large waves-effect waves-light indigo z-depth-2 add-btn tooltipped" data-position="left" data-delay="50" data-tooltip="New Course" href="<?php echo $g_url;?>course/add.php"><i class="material-icons">add</i></a>
+    </div>
+    <!-- Floating button end -->
+<?php
+  }
 }
 
 
@@ -288,6 +299,11 @@ function coursecard($courseid)
     //print_r($instructordata);
   }
   //we have all the data of the course table here
+  //Query to get number of students in a course
+  $query = "SELECT count(*) AS numStudents
+            FROM enrolled
+            WHERE course_id = $courseid";
+  $numStudents = mysqli_fetch_assoc((mysqli_query($con, $query)))['numStudents'];
 ?>
     <div class="card medium">
       <div class="card-image">
@@ -315,7 +331,7 @@ function coursecard($courseid)
       </div>
       <div class="card-action">
         <a href="<?php echo $g_url; ?>course/?c=<?php echo $courseid; ?>" class="btn btn-small indigo white-text waves-effect waves-light">View</a>
-        <span class="right indigo-text"><i class="fa fa-user"></i>&nbsp;50</span>
+        <span class="right indigo-text"><i class="fa fa-user"></i>&nbsp;<?php echo $numStudents; ?></span>
       </div>
     </div>
 

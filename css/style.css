@@ -153,3 +153,16 @@ color: indigo !important;
 input[type="search"]:-ms-input-placeholder {
 color: indigo !important;
 }
+
+/* Positioning of fixed action button */
+.fixed-action-btn
+{
+    position: fixed;
+    right: 5%;
+    bottom: 7%;
+    z-index: 5;
+}
+
+.new-course-form{
+  padding: 5% 10% 5% 10%;
+}

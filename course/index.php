@@ -6,6 +6,7 @@ $needlogin = 0;//variable is set to 1 if login is absolutely necessary
 $coursenotfound = 0;
 $editable = 0;
 $enrolled = 0;
+$newuser = 0;
 if(!isset($_REQUEST['c']) || $_REQUEST['c'] == "")//parameter for user id is not set
 {
   $coursenotfound = 1;
@@ -23,6 +24,7 @@ else//uid parameter is set
     $course_about = $coursedata['course_description'];
     $course_prereqs = $coursedata['prereq'];
     $course_syllabus = $coursedata['course_syllabus'];
+    $course_fee = $coursedata['fees'];
   }
   else//For invalid course ids
   {
@@ -42,7 +44,11 @@ if($global_uid)
   $result = mysqli_query($con,$query);
   $numResults = mysqli_num_rows($result);
   if($numResults)
+  {
     $enrolled = 1;
+    if(isset($_REQUEST['new']) && $_REQUEST['new'] == 1)
+      $newuser = 1;
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -76,7 +82,17 @@ if($global_uid)
     include("../inc/footer.php");
     ?>
     <?php global_modals();?>
-    <?php if(!$enrolled)enrollmodal();?>
-    <?php global_js('course');?>
+    <?php if(!$enrolled && $global_uid && !$coursenotfound)enrollmodal($courseid, $course_fee);?>
+    <?php global_js('course');
+    if($newuser == 1 && !$coursenotfound)
+    {
+      ?>
+      <script>
+        $('#course-welcome-modal').openModal();
+        </script>
+      <?php
+    }
+    ?>
+
   </body>
 </html>

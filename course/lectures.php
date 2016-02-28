@@ -6,6 +6,7 @@ $needlogin = 1;//variable is set to 1 if login is absolutely necessary
 $coursenotfound = 0;
 $lecturenotfound = 0;
 $editable = 0;
+$enrolled = 0;
 if(!isset($_REQUEST['c']) || $_REQUEST['c'] == "")//parameter for user id is not set
 {
   $coursenotfound = 1;
@@ -23,6 +24,7 @@ else//course id parameter is set
     $course_about = $coursedata['course_description'];
     $course_prereqs = $coursedata['prereq'];
     $course_syllabus = $coursedata['course_syllabus'];
+    $course_fee = $coursedata['fees'];
   }
   else//For invalid course ids
   {
@@ -31,19 +33,28 @@ else//course id parameter is set
   //Now that we have found course details get lecture data
   if(!isset($_REQUEST['l']) || $_REQUEST['l'] == "")
   {
-    $lecturenotfound = 1;
+    $lecindex = 1;//If l variable is not set, set it to the first lecture
   }
   else//Index of the lecture is set
   {
     $lecindex = $_REQUEST['l'];
-    $query = "SELECT *
-              FROM lectures
-                LEFT OUTER JOIN text_lectures
-                  ON (text_lectures.lec_id = lectures.lec_id AND lectures.type = 'text')
-                LEFT OUTER JOIN video_lectures
-                  ON (video_lectures.lec_id = lectures.lec_id AND lectures.type = 'video')
-              WHERE lectures.index = $lecindex AND lectures.course_id = $courseid";
-    echo $query;
+  }
+  $query = "SELECT *
+            FROM lectures
+              LEFT OUTER JOIN text_lectures
+                ON (text_lectures.lec_id = lectures.lec_id AND lectures.type = 'text')
+              LEFT OUTER JOIN video_lectures
+                ON (video_lectures.lec_id = lectures.lec_id AND lectures.type = 'video')
+            WHERE lectures.index = $lecindex AND lectures.course_id = $courseid";
+  $result = mysqli_query($con, $query);
+  if(mysqli_num_rows($result))
+  {
+    $lecturedata = mysqli_fetch_assoc($result);
+    //print_r($lecturedata);
+  }
+  else
+  {
+    $lecturenotfound = 1;
   }
 }
 if($global_uid)
@@ -93,7 +104,7 @@ if($global_uid)
     include("../inc/footer.php");
     ?>
     <?php global_modals();?>
-    <?php if(!$enrolled)enrollmodal();?>
+    <?php if(!$enrolled && $global_uid && !$coursenotfound)enrollmodal($courseid, $course_fee);?>
     <?php global_js('course');?>
   </body>
 </html>

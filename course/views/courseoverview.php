@@ -18,13 +18,13 @@ courseheader('overview');
           if($enrolled)
           {
         ?>
-          <a class="btn indigo white-text right">Get Started</a>
+            <a class="btn indigo white-text right waves-effect waves-dark" href="<?php echo $g_url; ?>course/lectures.php?c=<?php echo $courseid; ?>">Get Started</a>
         <?php
           }
           else
           {
         ?>
-          <a class="btn indigo white-text right">Enroll</a>
+        <a class="btn indigo white-text right modal-trigger waves-effect waves-light" href="<?php echo $global_uid ? '#course-enroll-modal':'#anonuser-modal' ?>">Enroll</a>
         <?php
           }
         ?>
@@ -33,3 +33,22 @@ courseheader('overview');
 
   </div>
 </div>
+<?php
+if($newuser)
+{
+?>
+  <!-- Modal Structure of Course Welcome -->
+  <div id="course-welcome-modal" class="modal">
+    <div class="modal-content">
+      <div class="row">
+        <center>
+          <h5>Welcome to <?php echo $course_name; ?></h5><hr>
+          <p>Course Enrollment Successful!</p>
+          <a class="btn indigo white-text right waves-effect waves-dark" href="<?php echo $g_url; ?>course/lectures.php?c=<?php echo $courseid; ?>">Go to Classroom</a>
+        </center>
+      </div>
+    </div>
+  </div>
+<?php
+}
+?>
