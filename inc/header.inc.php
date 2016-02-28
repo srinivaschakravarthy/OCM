@@ -33,10 +33,14 @@ function global_stylesheets()
   global $global_uid;
   ?>
   <!--global  CSS  -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="<?php echo $g_url;?>css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="<?php echo $g_url;?>css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="<?php echo $g_url;?>css/owl.carousel.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="<?php echo $g_url;?>css/owl.theme.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="<?php echo $g_url;?>css/owl.transitions.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel="shortcut icon" type="image/png" href="<?php echo $g_url;?>images/favicon.png"/>
   <?php
 }
@@ -51,6 +55,8 @@ function global_js($active = "")
   <script src="<?php echo $g_url;?>js/materialize.js"></script>
   <script src="<?php echo $g_url;?>js/init.js"></script>
   <script src="<?php echo $g_url;?>js/common.js"></script>
+  <script src="<?php echo $g_url;?>js/owl.carousel.js"></script>
+  <script src="<?php echo $g_url;?>js/owl.carousel.min.js"></script>
 <?php
 }
 
@@ -79,10 +85,10 @@ function global_modals()
               <input id="lpassword" type="password" class="validate">
               <label for="lpassword">Password</label>
             </div>
-            <p class="login-form-message invalid red-text center"></p>
+            <p class="login-form-message invalid indigo-text center"></p>
           </div>
           <p class="left">Don't have an account? <a href="#signup-modal" class="modal-trigger">Sign Up</a></p>
-          <button class="red waves-effect waves-light btn right" type="submit" onclick="verifyLogin()">Login</button>
+          <button class="indigo waves-effect waves-light btn right" type="submit" onclick="verifyLogin()">Login</button>
         </form>
       </div>
     </div>
@@ -132,7 +138,7 @@ function global_modals()
               <p class="signup-form-message"></p>
             </div>
             <p class="left">Already have an account? <a href="#login-modal" class="modal-trigger">Login</a></p>
-            <button class="red waves-effect waves-light btn right signup-btn" type="submit" onclick="validateEmail()">Sign Up</button>
+            <button class="indigo waves-effect waves-light btn right signup-btn" type="submit" onclick="validateEmail()">Sign Up</button>
           </form>
         </div>
       </div>
@@ -144,7 +150,7 @@ function global_modals()
       <div class="row">
         <center>
           <h5>You are not logged in. Please login to continue</h5><br>
-           <a href="#login-modal" class="modal-trigger btn btn-large red">Login</a>
+           <a href="#login-modal" class="modal-trigger btn btn-large indigo">Login</a>
           <p>Don't have an account? <a href="#signup-modal" class="modal-trigger">Sign Up</a></p>
         </center>
       </div>
@@ -161,13 +167,14 @@ function top_banner($active = "")
   global $global_uid;
   global $g_url;
   global $user_handle;
+  global $global_usertype;
 ?>
-<div class="navbar-fixed">
-  <nav class="white navbar-fixed" role="navigation">
+<div class="navbar-fixed z-depth-2">
+  <nav class="white navbar-fixed dbms3-navbar" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo">DBMS 3</a>
+      <a id="logo-container" href="<?php echo $g_url;?>" class="brand-logo indigo-text"><b>DBMS 3</b></a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
+        <li><a href="<?php echo $g_url;?>" class="<?php echo $active=='home' ? 'indigo-text active':'' ?>">Home</a></li>
         <?php
         if(!$global_uid)
         {
@@ -179,7 +186,7 @@ function top_banner($active = "")
         else
         {
         ?>
-          <li class="waves-effect waves-dark"><a href="<?php echo $g_url; ?>profile/"><?php echo $user_handle; ?></a></li>
+          <li class="waves-effect waves-dark"><a href="<?php echo $g_url; ?>profile/" class="<?php if($active == 'profile'){echo 'indigo-text active';} ?>"><?php echo $user_handle; ?></a></li>
           <li class=""><a class='dropdown-button grey-text' href='#' data-activates='dropdown-user' data-hover="false" data-constrainwidth="false"><i class="material-icons">arrow_drop_down</i></a></li>
           <!-- Dropdown Structure -->
           <ul id='dropdown-user' class='dropdown-content'>
@@ -200,6 +207,16 @@ function top_banner($active = "")
   </nav>
 </div>
 <?php
+  if($global_uid && $global_usertype == "3")
+  {
+?>
+    <!-- Floating button -->
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large waves-effect waves-light indigo z-depth-2 add-btn tooltipped" data-position="left" data-delay="50" data-tooltip="New Course" href="<?php echo $g_url;?>course/add.php"><i class="material-icons">add</i></a>
+    </div>
+    <!-- Floating button end -->
+<?php
+  }
 }
 
 
@@ -244,4 +261,81 @@ function generateRandomString($length = 10,$lettersonly = 0) {
     }
     return $randomString;
 }
+
+function coursecard($courseid)
+{
+  global $s3bucketurl;
+  global $g_url;
+  global $con;
+  //Query to get the details of the course
+  $query = "SELECT * FROM courses WHERE course_id = $courseid";
+  $result = mysqli_query($con, $query);
+  $numResults = mysqli_num_rows($result);
+  if($numResults)
+  {
+    $coursedata = mysqli_fetch_assoc($result);
+  }
+  //Query to get the course instructor data
+  $query = "SELECT users.user_id, users.fname, users.lname
+            FROM users
+            WHERE user_id IN (
+              SELECT user_id
+              FROM faculty
+              WHERE faculty_id IN(
+                SELECT faculty_id
+                FROM taught_by
+                WHERE course_id = $courseid
+              )
+            )";
+  $result = mysqli_query($con, $query);
+  $numResults = mysqli_num_rows($result);
+  if($numResults)
+  {
+    $instructordata = array();
+    while($row = mysqli_fetch_assoc($result))
+    {
+      array_push($instructordata,$row);
+    }
+    //print_r($instructordata);
+  }
+  //we have all the data of the course table here
+  //Query to get number of students in a course
+  $query = "SELECT count(*) AS numStudents
+            FROM enrolled
+            WHERE course_id = $courseid";
+  $numStudents = mysqli_fetch_assoc((mysqli_query($con, $query)))['numStudents'];
+?>
+    <div class="card medium">
+      <div class="card-image">
+        <img src="<?php echo $g_url; ?>images/background8.jpg">
+        <span class="card-title">
+          <h5><a href="<?php echo $g_url; ?>course/?c=<?php echo $courseid; ?>" class="white-text"><?php echo $coursedata['course_name']; ?></a></h5>
+          <small>by
+            <?php
+            if(isset($instructordata))
+            {
+              foreach ($instructordata as $row) {
+            ?>
+                <a class="white-text" href="<?php echo $g_url; ?>profile/?u=<?php echo $row['user_id'] ?>"><?php echo $row['fname']." ".$row['lname'].","; ?></a>
+            <?php
+              }
+            }
+            ?>
+          </small>
+        </span>
+        <span class="price-tag indigo-text z-depth-1"><?php echo $coursedata['fees']==0 ? "FREE": "<i class='fa fa-inr'></i>&nbsp;".$coursedata['fees']; ?></span>
+
+      </div>
+      <div class="card-content black-text">
+        <p><?php echo $coursedata['course_description']?></p>
+      </div>
+      <div class="card-action">
+        <a href="<?php echo $g_url; ?>course/?c=<?php echo $courseid; ?>" class="btn btn-small indigo white-text waves-effect waves-light">View</a>
+        <span class="right indigo-text"><i class="fa fa-user"></i>&nbsp;<?php echo $numStudents; ?></span>
+      </div>
+    </div>
+
+<?php
+}
+
 ?>

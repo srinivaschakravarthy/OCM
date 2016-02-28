@@ -55,3 +55,114 @@ p {
 footer.page-footer {
   margin: 0;
 }
+
+#upload_dp_link {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.uploadins {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+
+
+  visibility: hidden;
+  opacity: 0;
+
+  /*remove comment if you want a gradual transition between states
+  -webkit-transition: visibility opacity 0.2s;
+  */
+}
+
+
+#upload_dp_link:hover .uploadins {
+  visibility: visible;
+  opacity: 1;
+}
+
+nav ul li .active{
+    border-color: #3f51b5;
+    border-width: 0px 0 2px 0px;
+    border-style: solid;
+}
+
+.lecsidebar .collection a.collection-item {
+      color: #aaa;
+}
+
+hr{
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+.dbms3-navbar{
+  border-color: #3f51b5;
+    border-width: 2px 0 0px 0px;
+    border-style: solid;
+}
+
+.price-tag{
+  position: absolute;;
+  top: 5px;
+  right: -5px;
+  background: white;
+  padding: 3px 15px 3px 15px;
+}
+
+.btn-small{
+  height: 24px;
+  line-height: 24px;
+  outline: 0;
+  padding: 0 1rem;
+}
+
+#courses-carousel .card{
+  padding: 10px 5px;
+  margin: 5px;
+  color: #FFF;
+}
+
+#lecturers-carousel .card{
+  padding: 10px 5px;
+  margin: 5px;
+  color: #FFF;
+}
+
+input[type="search"]::-webkit-input-placeholder {
+color: indigo !important;
+}
+
+input[type="search"]:-moz-placeholder { /* Firefox 18- */
+color: indigo !important;
+}
+
+input[type="search"]::-moz-placeholder {  /* Firefox 19+ */
+color: indigo !important;
+}
+
+input[type="search"]:-ms-input-placeholder {
+color: indigo !important;
+}
+
+/* Positioning of fixed action button */
+.fixed-action-btn
+{
+    position: fixed;
+    right: 5%;
+    bottom: 7%;
+    z-index: 5;
+}
+
+.new-course-form{
+  padding: 5% 10% 5% 10%;
+}

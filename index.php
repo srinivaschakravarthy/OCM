@@ -15,7 +15,12 @@ error_reporting(E_ALL);?>
     top_banner('home');
     if($global_uid)
     {
-      include("views/loggedin.php");
+      if($global_usertype == "1")
+        include("views/sdashboard.php");//Include student dashboard if user type is 1
+      else if($global_usertype == "3")
+        include("views/fdashboard.php");//Include faculty dashboard if user type is 3
+      elseif ($global_usertype == "2")
+        include("views/pdashboard.php");//Include parent dashboard if user type is 2
     }
     else
     {

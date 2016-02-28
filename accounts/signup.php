@@ -42,6 +42,7 @@ else if($_REQUEST['mode'] == 'signup')
 	VALUES ('$usertype','$fname','$lname','$email','$password1','$nakedemail','$timenow')");
 	$u_id = mysqli_insert_id($con);//GEt primary key
 	/* With the generated pk populate profiledata table */
+	mysqli_query($con,"INSERT INTO profiledata (user_id) VALUES ('$u_id')");
 	if($usertype == '1')
 	{
 		mysqli_query($con,"INSERT INTO students (user_id) VALUES ('$u_id')");
