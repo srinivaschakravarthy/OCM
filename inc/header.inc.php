@@ -85,7 +85,7 @@ function global_modals()
               <input id="lpassword" type="password" class="validate">
               <label for="lpassword">Password</label>
             </div>
-            <p class="login-form-message invalid indigo-text center"></p>
+            <p class="login-form-message invalid red-text center"></p>
           </div>
           <p class="left">Don't have an account? <a href="#signup-modal" class="modal-trigger">Sign Up</a></p>
           <button class="indigo waves-effect waves-light btn right" type="submit" onclick="verifyLogin()">Login</button>
@@ -173,6 +173,10 @@ function top_banner($active = "")
   <nav class="white navbar-fixed dbms3-navbar" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="<?php echo $g_url;?>" class="brand-logo indigo-text"><b>DBMS 3</b></a>
+      <div class="header-search-wrapper hide-on-med-and-down">
+          <i class="mdi-action-search indigo-text"></i>
+          <input type="text" name="Search" class="header-search-input z-depth-1 black-text" placeholder="Search">
+      </div>
       <ul class="right hide-on-med-and-down">
         <li><a href="<?php echo $g_url;?>" class="<?php echo $active=='home' ? 'indigo-text active':'' ?>">Home</a></li>
         <?php
@@ -267,6 +271,7 @@ function coursecard($courseid)
   global $s3bucketurl;
   global $g_url;
   global $con;
+  $coursenotfound = 0;
   //Query to get the details of the course
   $query = "SELECT * FROM courses WHERE course_id = $courseid";
   $result = mysqli_query($con, $query);
@@ -274,6 +279,9 @@ function coursecard($courseid)
   if($numResults)
   {
     $coursedata = mysqli_fetch_assoc($result);
+  }
+  else {
+    $coursenotfound = 1;
   }
   //Query to get the course instructor data
   $query = "SELECT users.user_id, users.fname, users.lname
@@ -304,38 +312,40 @@ function coursecard($courseid)
             FROM enrolled
             WHERE course_id = $courseid";
   $numStudents = mysqli_fetch_assoc((mysqli_query($con, $query)))['numStudents'];
-?>
-    <div class="card medium">
-      <div class="card-image">
-        <img src="<?php echo $g_url; ?>images/background8.jpg">
-        <span class="card-title">
-          <h5><a href="<?php echo $g_url; ?>course/?c=<?php echo $courseid; ?>" class="white-text"><?php echo $coursedata['course_name']; ?></a></h5>
-          <small>by
-            <?php
-            if(isset($instructordata))
-            {
-              foreach ($instructordata as $row) {
-            ?>
-                <a class="white-text" href="<?php echo $g_url; ?>profile/?u=<?php echo $row['user_id'] ?>"><?php echo $row['fname']." ".$row['lname'].","; ?></a>
-            <?php
-              }
-            }
-            ?>
-          </small>
-        </span>
-        <span class="price-tag indigo-text z-depth-1"><?php echo $coursedata['fees']==0 ? "FREE": "<i class='fa fa-inr'></i>&nbsp;".$coursedata['fees']; ?></span>
+  if(!$coursenotfound)
+  {
+    ?>
+        <div class="card medium">
+          <div class="card-image">
+            <img src="<?php echo $g_url; ?>images/background8.jpg">
+            <span class="card-title">
+              <h5><a href="<?php echo $g_url; ?>course/?c=<?php echo $courseid; ?>" class="white-text"><?php echo $coursedata['course_name']; ?></a></h5>
+              <small>by
+                <?php
+                if(isset($instructordata))
+                {
+                  foreach ($instructordata as $row) {
+                ?>
+                    <a class="white-text" href="<?php echo $g_url; ?>profile/?u=<?php echo $row['user_id'] ?>"><?php echo $row['fname']." ".$row['lname'].","; ?></a>
+                <?php
+                  }
+                }
+                ?>
+              </small>
+            </span>
+            <span class="price-tag indigo-text z-depth-1"><?php echo $coursedata['fees']==0 ? "FREE": "<i class='fa fa-inr'></i>&nbsp;".$coursedata['fees']; ?></span>
 
-      </div>
-      <div class="card-content black-text">
-        <p><?php echo $coursedata['course_description']?></p>
-      </div>
-      <div class="card-action">
-        <a href="<?php echo $g_url; ?>course/?c=<?php echo $courseid; ?>" class="btn btn-small indigo white-text waves-effect waves-light">View</a>
-        <span class="right indigo-text"><i class="fa fa-user"></i>&nbsp;<?php echo $numStudents; ?></span>
-      </div>
-    </div>
+          </div>
+          <div class="card-content black-text">
+            <p><?php echo $coursedata['course_description']?></p>
+          </div>
+          <div class="card-action">
+            <a href="<?php echo $g_url; ?>course/?c=<?php echo $courseid; ?>" class="btn btn-small indigo white-text waves-effect waves-light">View</a>
+            <span class="right indigo-text"><i class="fa fa-user"></i>&nbsp;<?php echo $numStudents; ?></span>
+          </div>
+        </div>
 
-<?php
+    <?php
+  }
 }
-
 ?>

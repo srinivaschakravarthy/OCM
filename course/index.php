@@ -49,6 +49,25 @@ if($global_uid)
     if(isset($_REQUEST['new']) && $_REQUEST['new'] == 1)
       $newuser = 1;
   }
+  if($global_usertype == 3)//If the viewing user is a faculty
+  {
+    //Query to check if the current course is taught by the viewing user user
+    $query = "SELECT *
+              FROM taught_by
+              WHERE taught_by.course_id = $courseid
+              AND taught_by.faculty_id IN (
+                SELECT faculty_id
+                FROM faculty
+                WHERE faculty.user_id = $global_uid
+              )";
+    $result = mysqli_query($con,$query);
+    $numResults = mysqli_num_rows($result);
+    if($numResults)
+    {
+      //If so then the current viewing user has access to edit the course info
+      $editable = 1;
+    }
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -61,19 +80,19 @@ if($global_uid)
   </head>
   <body class="">
     <?php
-    if($editable == 1)
-      top_banner('course');
-    else
       top_banner();
     ?>
     <?php
     if(isset($needlogin) && $needlogin == 1 && !$global_uid)
     {
-       include("../misc/views/needlogin.php");
+      include("../misc/views/needlogin.php");
     }
     else if($coursenotfound)
     {
-       include("views/notfound.php");
+      include("views/notfound.php");
+    }
+    else if ($editable && $global_uid && $global_usertype == 3) {
+      include("views/facultyview.php");
     }
     else
     {

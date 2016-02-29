@@ -57,38 +57,23 @@ else//course id parameter is set
     $lecturenotfound = 1;
   }
 }
-if($global_uid)
+if($global_usertype == 3)//If the viewing user is a faculty
 {
+  //Query to check if the current course is taught by the viewing user user
   $query = "SELECT *
-            FROM enrolled
-            WHERE enrolled.course_id = $courseid
-            AND enrolled.student_id IN (
-              SELECT student_id
-              FROM students
-              WHERE students.user_id = $global_uid
+            FROM taught_by
+            WHERE taught_by.course_id = $courseid
+            AND taught_by.faculty_id IN (
+              SELECT faculty_id
+              FROM faculty
+              WHERE faculty.user_id = $global_uid
             )";
   $result = mysqli_query($con,$query);
   $numResults = mysqli_num_rows($result);
   if($numResults)
-    $enrolled = 1;
-  if($global_usertype == 3)//If the viewing user is a faculty
   {
-    //Query to check if the current course is taught by the viewing user user
-    $query = "SELECT *
-              FROM taught_by
-              WHERE taught_by.course_id = $courseid
-              AND taught_by.faculty_id IN (
-                SELECT faculty_id
-                FROM faculty
-                WHERE faculty.user_id = $global_uid
-              )";
-    $result = mysqli_query($con,$query);
-    $numResults = mysqli_num_rows($result);
-    if($numResults)
-    {
-      //If so then the current viewing user has access to edit the course info
-      $editable = 1;
-    }
+    //If so then the current viewing user has access to edit the course info
+    $editable = 1;
   }
 }
 ?>
@@ -97,34 +82,27 @@ if($global_uid)
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <title><?php echo $course_name ? "Lectures of ".$course_name:"Course Not Found" ;?> - dbms3</title>
+    <title>New Lecture - dbms3</title>
     <?php global_stylesheets();?>
   </head>
   <body class="">
     <?php
-      top_banner();
-    ?>
-    <?php
+    top_banner();
     if(isset($needlogin) && $needlogin == 1 && !$global_uid)
     {
-       include("../misc/views/needlogin.php");
+      include("../misc/views/needlogin.php");
     }
-    else if($coursenotfound)
-    {
-       include("views/notfound.php");
+    elseif ($global_usertype != "3" || $editable == 0) {
+      include("../misc/views/accessdenied.php");
     }
-    else if($global_uid && $global_usertype == 3)
+    else
     {
-      include("views/faclectures.php");
-    }
-    else if($global_uid)
-    {
-       include("views/lectures.php");
+      include("views/addlecture.php");
     }
     include("../inc/footer.php");
     ?>
     <?php global_modals();?>
-    <?php if(!$enrolled && $global_uid && !$coursenotfound)enrollmodal($courseid, $course_fee);?>
-    <?php global_js('course');?>
+    <?php global_js();?>
+    <script src="<?php echo $g_url;?>course/js/addlecture.js"></script>
   </body>
 </html>

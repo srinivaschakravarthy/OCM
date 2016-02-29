@@ -7,6 +7,7 @@ function courseheader($active = "overview"){
   global $courseid;
   global $global_uid;
   global $enrolled;
+  global $global_usertype;
   //Course status -- can be active, completed or yet to start
   //User status -- can be logged in or not logged in
   //If logged in -- he can be enrolled or not enrolled to the course
@@ -42,16 +43,29 @@ function courseheader($active = "overview"){
         </div>
         <div class="col m3" style="margin-top:20px">
         <?php
-          if($enrolled && $active == "overview")
+          if($global_usertype == 1 && $enrolled && $active == "overview")
           {
         ?>
           <a class="btn white indigo-text right waves-effect waves-dark" href="<?php echo $g_url; ?>course/lectures.php?c=<?php echo $courseid; ?>">Get Started</a>
         <?php
           }
-          else if(!$enrolled)
+          else if($global_usertype == 1 && !$enrolled)
           {
         ?>
           <a class="btn white indigo-text right modal-trigger waves-effect waves-dark" href="<?php echo $global_uid ? '#course-enroll-modal':'#anonuser-modal' ?>">Enroll</a>
+        <?php
+          }
+          elseif ($global_uid && $global_usertype == 3 && $editable == 1) {
+        ?>
+          <!-- Dropdown Trigger -->
+          <a class='dropdown-button btn white indigo-text right waves-effect waves-dark' href='#' data-activates='fac-dropdown1'><i class="material-icons left">add</i> Add Content</a>
+
+          <!-- Dropdown Structure -->
+          <ul id='fac-dropdown1' class='dropdown-content' style="z-index:100">
+            <li><a href="<?php echo $g_url; ?>course/addlecture.php?c=<?php echo $courseid;?>" class="indigo-text waves-effect waves-dark">New Lecture</a></li>
+            <li><a href="#!" class="indigo-text waves-effect waves-dark">New Assignment</a></li>
+            <li><a href="#!" class="indigo-text waves-effect waves-dark">New Quiz</a></li>
+          </ul>
         <?php
           }
         ?>
@@ -71,6 +85,14 @@ function courseheader($active = "overview"){
           <li><a href="<?php echo $g_url;?>course/assignments.php?c=<?php echo $courseid;?>" class="waves-effect waves-dark <?php echo $active=='assignments' ? 'indigo-text active':'' ?>">Assignments</a></li>
           <li><a href="<?php echo $g_url;?>course/quizzes.php?c=<?php echo $courseid;?>" class="waves-effect waves-dark <?php echo $active=='quizzes' ? 'indigo-text active':'' ?>">Quizzes</a></li>
           <li><a href="<?php echo $g_url;?>course/discussions.php?c=<?php echo $courseid;?>" class="waves-effect waves-dark <?php echo $active=='discussions' ? 'indigo-text active':'' ?>">Discussions</a></li>
+          <?php
+          if ($global_uid && $global_usertype == 3 && $editable == 1)
+          {
+          ?>
+          <li><a href="<?php echo $g_url;?>course/settings.php?c=<?php echo $courseid;?>" class="waves-effect waves-dark <?php echo $active=='discussions' ? 'indigo-text active':'' ?>">Settings</a></li>
+          <?php
+          }
+          ?>
       </div>
     </nav>
   </div>

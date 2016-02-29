@@ -13,29 +13,29 @@
           <form class="col s12">
             <div class="row">
               <div class="input-field col s12">
-                <input id="course_name" type="text" required="" aria-required="true" length="120">
-                <label for="course_name">Course Name</label>
+                <input id="course_name" type="text" required="true" aria-required="true" length="120">
+                <label for="course_name" class="course_name_label" data-error="Required" data-success="">Course Name</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <textarea id="course_about" class="materialize-textarea"></textarea>
+                <textarea id="course_about" class="materialize-textarea" aria-required="true"></textarea>
                 <label for="course_about">Course Description</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12 m6">
-                <input id="course_fee" type="text">
-                <label for="course_fee">Fee</label>
+                <input id="course_fee" type="number" aria-required="true">
+                <label for="course_fee">Fee ( <i class="fa fa-inr"></i> )</label>
               </div>
               <div class="input-field col s12 m6">
-                <input id="course_lang" type="text">
+                <input id="course_lang" type="text" aria-required="true">
                 <label for="course_lang">Language</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <textarea id="course_syllabus" class="materialize-textarea"></textarea>
+                <textarea id="course_syllabus" class="materialize-textarea" aria-required="true"></textarea>
                 <label for="course_syllabus">Syllabus</label>
               </div>
             </div>
@@ -57,15 +57,16 @@
             </div>
             <div class="row">
               <div class="input-field col s12 m6">
-                <input type="date" class="datepicker" id="course_startdate">
-                <label for="course_startdate">Start Date (mm/dd/yyyy)</label>
+                <input type="date" class="datepicker" id="course_startdate" aria-required="true">
+                <label for="course_startdate">Start Date (yyyy-mm-dd)</label>
               </div>
               <div class="input-field col s12 m6">
                 <input type="date" class="datepicker" id="course_enddate">
-                <label for="course_enddate">End Date (mm/dd/yyyy)</label>
+                <label for="course_enddate" aria-required="true">End Date (yyyy-mm-dd)</label>
               </div>
             </div>
-            <a class="indigo white-text btn btn-large waves-effect waves-light" onclick="addcourse();">Submit</a>
+            <p class="addcourse-form-message invalid red-text center"></p>
+            <a class="indigo white-text btn btn-large waves-effect waves-light addcourse-submit-btn" onclick="addcourse();">Submit</a>
           </form>
         </div>
       </div>
