@@ -21,7 +21,7 @@ courseheader('overview');
         <div class="col s12 m4 l4">
             <div class="card">
                 <div class="card-content pink lighten-1 white-text">
-                    <p class="card-stats-title"><i class="mdi-editor-insert-drive-file"></i> New Invoice</p>
+                    <p class="card-stats-title"><i class="mdi-editor-insert-drive-file"></i> New Assignment Submissions</p>
                     <h4 class="card-stats-number">1806</h4>
                     <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-down"></i> 3% <span class="deep-purple-text text-lighten-5">from last month</span>
                     </p>

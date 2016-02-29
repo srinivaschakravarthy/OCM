@@ -200,3 +200,11 @@ input.header-search-input {
     outline: none;
     border-radius: 3px;
 }
+
+.tabs .indicator {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: #3f51b5;
+    will-change: left, right;
+}

@@ -57,7 +57,15 @@ function courseheader($active = "overview"){
           }
           elseif ($global_uid && $global_usertype == 3 && $editable == 1) {
         ?>
-          <a class="btn white indigo-text right waves-effect waves-dark">Edit Details</a>
+          <!-- Dropdown Trigger -->
+          <a class='dropdown-button btn white indigo-text right waves-effect waves-dark' href='#' data-activates='fac-dropdown1'><i class="material-icons left">add</i> Add Content</a>
+
+          <!-- Dropdown Structure -->
+          <ul id='fac-dropdown1' class='dropdown-content' style="z-index:100">
+            <li><a href="<?php echo $g_url; ?>course/addlecture.php?c=<?php echo $courseid;?>" class="indigo-text waves-effect waves-dark">New Lecture</a></li>
+            <li><a href="#!" class="indigo-text waves-effect waves-dark">New Assignment</a></li>
+            <li><a href="#!" class="indigo-text waves-effect waves-dark">New Quiz</a></li>
+          </ul>
         <?php
           }
         ?>
@@ -77,6 +85,14 @@ function courseheader($active = "overview"){
           <li><a href="<?php echo $g_url;?>course/assignments.php?c=<?php echo $courseid;?>" class="waves-effect waves-dark <?php echo $active=='assignments' ? 'indigo-text active':'' ?>">Assignments</a></li>
           <li><a href="<?php echo $g_url;?>course/quizzes.php?c=<?php echo $courseid;?>" class="waves-effect waves-dark <?php echo $active=='quizzes' ? 'indigo-text active':'' ?>">Quizzes</a></li>
           <li><a href="<?php echo $g_url;?>course/discussions.php?c=<?php echo $courseid;?>" class="waves-effect waves-dark <?php echo $active=='discussions' ? 'indigo-text active':'' ?>">Discussions</a></li>
+          <?php
+          if ($global_uid && $global_usertype == 3 && $editable == 1)
+          {
+          ?>
+          <li><a href="<?php echo $g_url;?>course/settings.php?c=<?php echo $courseid;?>" class="waves-effect waves-dark <?php echo $active=='discussions' ? 'indigo-text active':'' ?>">Settings</a></li>
+          <?php
+          }
+          ?>
       </div>
     </nav>
   </div>
