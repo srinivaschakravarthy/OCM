@@ -7,6 +7,7 @@ function courseheader($active = "overview"){
   global $courseid;
   global $global_uid;
   global $enrolled;
+  global $global_usertype;
   //Course status -- can be active, completed or yet to start
   //User status -- can be logged in or not logged in
   //If logged in -- he can be enrolled or not enrolled to the course
@@ -42,16 +43,21 @@ function courseheader($active = "overview"){
         </div>
         <div class="col m3" style="margin-top:20px">
         <?php
-          if($enrolled && $active == "overview")
+          if($global_usertype == 1 && $enrolled && $active == "overview")
           {
         ?>
           <a class="btn white indigo-text right waves-effect waves-dark" href="<?php echo $g_url; ?>course/lectures.php?c=<?php echo $courseid; ?>">Get Started</a>
         <?php
           }
-          else if(!$enrolled)
+          else if($global_usertype == 1 && !$enrolled)
           {
         ?>
           <a class="btn white indigo-text right modal-trigger waves-effect waves-dark" href="<?php echo $global_uid ? '#course-enroll-modal':'#anonuser-modal' ?>">Enroll</a>
+        <?php
+          }
+          elseif ($global_uid && $global_usertype == 3 && $editable == 1) {
+        ?>
+          <a class="btn white indigo-text right waves-effect waves-dark">Edit Details</a>
         <?php
           }
         ?>

@@ -173,6 +173,10 @@ function top_banner($active = "")
   <nav class="white navbar-fixed dbms3-navbar" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="<?php echo $g_url;?>" class="brand-logo indigo-text"><b>DBMS 3</b></a>
+      <div class="header-search-wrapper hide-on-med-and-down">
+          <i class="mdi-action-search indigo-text"></i>
+          <input type="text" name="Search" class="header-search-input z-depth-1 black-text" placeholder="Search">
+      </div>
       <ul class="right hide-on-med-and-down">
         <li><a href="<?php echo $g_url;?>" class="<?php echo $active=='home' ? 'indigo-text active':'' ?>">Home</a></li>
         <?php
