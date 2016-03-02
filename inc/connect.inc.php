@@ -8,7 +8,8 @@ $con = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME) or die("Failed to con
 
 /*Global urls*/
 $g_url = "http://localhost/dbms3/";
-$s3bucketurl = "https://s3-ap-southeast-1.amazonaws.com/dbms3/";
+$s3bucketurl = "http://localhost/dbms3/uploads/";
+// $s3bucketurl = "https://s3-ap-southeast-1.amazonaws.com/dbms3/";
 
 date_default_timezone_set('Asia/Kolkata');
 

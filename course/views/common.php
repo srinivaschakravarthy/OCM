@@ -63,7 +63,7 @@ function courseheader($active = "overview"){
           <!-- Dropdown Structure -->
           <ul id='fac-dropdown1' class='dropdown-content' style="z-index:100">
             <li><a href="<?php echo $g_url; ?>course/addlecture.php?c=<?php echo $courseid;?>" class="indigo-text waves-effect waves-dark">New Lecture</a></li>
-            <li><a href="#!" class="indigo-text waves-effect waves-dark">New Assignment</a></li>
+            <li><a href="<?php echo $g_url; ?>course/addassign.php?c=<?php echo $courseid;?>" class="indigo-text waves-effect waves-dark">New Assignment</a></li>
             <li><a href="#!" class="indigo-text waves-effect waves-dark">New Quiz</a></li>
           </ul>
         <?php

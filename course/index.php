@@ -1,5 +1,6 @@
 <?php include("../inc/header.inc.php");?>
 <?php
+$courseid = 0;
 $course_name = "";
 $coursepicurl = $s3bucketurl."default.jpg";//course pic url is set to default image
 $needlogin = 0;//variable is set to 1 if login is absolutely necessary

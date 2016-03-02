@@ -13,7 +13,7 @@ profileheader('current');
       $profileid = $userdata['user_id'];
     }
     $today = date('Y-m-d');
-    $query = "SELECT course_id from courses where course_id in (select course_id from enrolled where student_id in (select student_id from students where user_id = $profileid)) and start_date < '$today' and end_date > '$today'";
+    $query = "SELECT course_id from courses where course_id in (select course_id from taught_by where faculty_id in (select faculty_id from faculty where user_id = $profileid)) and start_date < '$today' and end_date > '$today'";
     $result = mysqli_query($con,$query);
     $numResults = mysqli_num_rows($result);
     //echo $numResults;

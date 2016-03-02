@@ -82,7 +82,7 @@ if($global_usertype == 3)//If the viewing user is a faculty
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <title>New Lecture - dbms3</title>
+    <title>New Lecture to <?php echo $course_name; ?> - dbms3</title>
     <?php global_stylesheets();?>
   </head>
   <body class="">

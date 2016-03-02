@@ -6,6 +6,7 @@ $profilepicurl = $s3bucketurl."default.jpg";//Profile pic url is set to default 
 $needlogin = 0;//variable is set to 1 if login is absolutely necessary
 $usernotfound = 0;
 $editable = 0;
+$type = 0;
 if(!isset($_REQUEST['u']) || $_REQUEST['u'] == "")//parameter for user id is not set
   {
     if(isset($_SESSION["email"]))//Parameter is not set and the user is logged in
@@ -21,6 +22,7 @@ if(!isset($_REQUEST['u']) || $_REQUEST['u'] == "")//parameter for user id is not
         $lname = $userdata['lname'];
         $profileid = $userdata['user_id'];
         $editable = 1;
+        $type = $userdata['type'];
       }
     }
     else//User not logged in but trying to access his own homepage --politely prompt login
@@ -39,6 +41,7 @@ if(!isset($_REQUEST['u']) || $_REQUEST['u'] == "")//parameter for user id is not
       $userdata = mysqli_fetch_assoc($result);
       $fname = $userdata['fname'];
       $lname = $userdata['lname'];
+      $type = $userdata['type'];
       if(isset($global_uid) && $profileid == $global_uid)//If I'm in my own page
       {
         $editable = 1;
@@ -76,7 +79,17 @@ if(!isset($_REQUEST['u']) || $_REQUEST['u'] == "")//parameter for user id is not
     }
     else
     {
-       include("views/past.php");
+      if($type == 1)
+       {
+         include("views/past.php");
+       }
+       else if($type == 2)
+       {
+         include("views/ppast.php");
+       }
+       else {
+         include("views/fpast.php");
+       }
     }
     include("../inc/footer.php");
     ?>

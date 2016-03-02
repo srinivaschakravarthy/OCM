@@ -4,11 +4,44 @@ courseheader('overview');
  ?>
 <div class="container">
   <div class="section">
-
     <!--   Icon Section   -->
     <div class="row">
-      <div class="col s12 m12">
-        <h5>About</h5><hr>
+      <div class="col s12 m3">
+        <h5>Instructors</h5><hr>
+        <?php
+        // $query = "SELECT users.user_id FROM users, faculty, taught_by WHERE users.user_id = faculty.user_id AND taught_by.faculty_id = faculty.faculty_id AND taught_by.course_id = $courseid";
+        // $result = mysqli_query($con, $query);
+        // if(mysqli_num_rows($result))
+        // {
+        //   while ($row = mysqli_fetch_assoc($result)) {
+        //     usercard($row['user_id']);
+        //   }
+        // }
+        $query = "SELECT users.user_id, users.fname, users.lname
+                  FROM users
+                  WHERE user_id IN (
+                    SELECT user_id
+                    FROM faculty
+                    WHERE faculty_id IN(
+                      SELECT faculty_id
+                      FROM taught_by
+                      WHERE course_id = $courseid
+                    )
+                  )";
+        $result = mysqli_query($con, $query);
+        $numResults = mysqli_num_rows($result);
+        if($numResults)
+        {
+          while($row = mysqli_fetch_assoc($result))
+          {
+            usercard($row['user_id']);
+          }
+          //print_r($instructordata);
+        }
+       ?>
+      </div>
+      <div class="col s12 m9">
+        <h5>About the course</h5><hr>
         <p><?php echo $course_about; ?></p>
         <h5>Syllabus</h5><hr>
         <p><?php echo $course_syllabus; ?></p>
@@ -29,6 +62,7 @@ courseheader('overview');
           }
         ?>
       </div>
+
     </div>
 
   </div>

@@ -348,4 +348,75 @@ function coursecard($courseid)
     <?php
   }
 }
+
+function usercard($userid)
+{
+  global $s3bucketurl;
+  global $g_url;
+  global $con;
+  $usernotfound = 0;
+
+  //Query to get the user's data
+  $query = "SELECT users.fname, users.lname, users.user_id
+            FROM users
+            WHERE user_id = $userid";
+  $result = mysqli_query($con, $query);
+  $numResults = mysqli_num_rows($result);
+  if($numResults)
+  {
+    $userdata = array();
+    while($row = mysqli_fetch_assoc($result))
+    {
+      array_push($userdata,$row);
+    }
+    //print_r($userdata);
+  }
+  else
+  {
+    $usernotfound = 1;
+  }
+  // Query to get User Tagline
+  $query = "SELECT *
+            FROM profiledata
+            WHERE profile_id IN (
+              SELECT user_id
+              FROM users
+                WHERE user_id = $userid
+              )";
+  $result = mysqli_query($con, $query);
+  $numResults = mysqli_num_rows($result);
+  if($numResults)
+  {
+    $profile_data = mysqli_fetch_assoc($result);
+  }
+  if(!$usernotfound)
+  {
+    ?>
+        <div class="card small">
+          <div class="card-image">
+            <img src="<?php echo $g_url; ?>images/background8.jpg">
+            <span class="card-title"><h5>
+              <?php
+              if(isset($userdata))
+              {
+                foreach ($userdata as $row) {
+              ?>
+                  <a class="white-text" href="<?php echo $g_url; ?>profile/?u=<?php echo $row['user_id'] ?>"> <?php echo $row['fname']." ".$row['lname']; ?></a>
+              <?php
+                }
+              }
+              ?>
+            </h5>
+            </span>
+          </div>
+          <div class="card-content black-text">
+            <p><?php echo  $profile_data['tagline']?></p>
+          </div>
+          <div class="card-action">
+            <a href="<?php echo $g_url; ?>profile/?u=<?php echo $userid; ?>" class="btn btn-small indigo white-text waves-effect waves-light">View</a>
+          </div>
+        </div>
+    <?php
+  }
+}
 ?>

@@ -2,38 +2,41 @@
 <?php
 profileheader('past');
  ?>
-<div class="container">
-  <div class="section">
 
-    <!--   Icon Section   -->
-    <div class="row">
-      <div class="col s12 m4">
-        <div class="icon-block">
-          <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
-          <h5 class="center">Speeds up development</h5>
-
-          <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-        </div>
-      </div>
-
-      <div class="col s12 m4">
-        <div class="icon-block">
-          <h2 class="center brown-text"><i class="material-icons">group</i></h2>
-          <h5 class="center">User Experience Focused</h5>
-
-          <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
-        </div>
-      </div>
-
-      <div class="col s12 m4">
-        <div class="icon-block">
-          <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
-          <h5 class="center">Easy to work with</h5>
-
-          <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
-        </div>
-      </div>
+ <?php
+    $email = $_SESSION["email"];
+    $query = "SELECT * FROM users where users.email='$email'";
+    $result = mysqli_query($con,$query);
+    $numResults = mysqli_num_rows($result);
+    if($numResults)
+    {
+      $profileid = $userdata['user_id'];
+    }
+    $today = date('Y-m-d');
+    $query = "SELECT course_id from courses where course_id in (select course_id from enrolled where student_id in (select student_id from students where user_id = $profileid)) and start_date < '$today' and end_date < '$today'";
+    $result = mysqli_query($con,$query);
+    $numResults = mysqli_num_rows($result);
+    //echo $numResults;
+    if($numResults)
+    {
+      $i = 0;
+      while($coursedata = mysqli_fetch_assoc($result))
+      $course_id[$i++] = $coursedata['course_id'];
+      //echo $course_id;
+    }
+ ?>
+ <div class="container">
+   <div class="section">
+      <div class="row">
+<?php
+  foreach ($course_id as $key => $value) {
+    ?>
+    <div class="col m4">
+    <?php coursecard($value); ?>
     </div>
-
+    <?php
+  }
+?>
+    </div>
   </div>
 </div>
